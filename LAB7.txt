@@ -1,0 +1,120 @@
+
+Setting environment for using XAMPP for Windows.
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 18
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
++--------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-----------------------+
+| Tables_in_college     |
++-----------------------+
+| client12              |
+| department            |
+| dept                  |
+| emp                   |
+| employee_manager_view |
+| employees             |
+| empt                  |
+| sales                 |
+| teacher               |
++-----------------------+
+9 rows in set (0.001 sec)
+
+MariaDB [college]> SELECT e1.ename AS Employee_Name, e2.ename AS Manager_Name
+    -> FROM empt e1a
+    -> JOIN Emp e2 ON e1.mgr = e2.empno
+    -> WHERE e1a.sal > e2.sal;
+ERROR 1054 (42S22): Unknown column 'e1.ename' in 'field list'
+MariaDB [college]> SELECT e1.ename AS Employee_Name, e2.ename AS Manager_Name
+    -> FROM empt e1
+    -> JOIN empt e2 ON e1.mgr = e2.empno
+    -> WHERE e1.sal > e2.sal;
++----------------+--------------+
+| Employee_Name  | Manager_Name |
++----------------+--------------+
+| Ashok Shrestha | kiran Rokaya |
+| Sita Rai       | kiran Rokaya |
++----------------+--------------+
+2 rows in set (0.002 sec)
+
+MariaDB [college]> SELECT e.ename, e.deptno, e.sal
+    -> FROM empt e
+    -> JOIN (
+    -> SELECT deptno, MAX(sal) AS MaxSalary
+    -> FROM empt
+    -> GROUP BY deptno
+    ->  ) max_salaries ON e.deptno = max_salaries.deptno AND e.sal = max_salaries.MaxSalary;
++--------------+--------+-------+
+| ename        | deptno | sal   |
++--------------+--------+-------+
+| Bharat Yadav |     10 | 50000 |
+| kiran Rokaya |     20 | 60000 |
+| Sita Rai     |     30 | 90000 |
++--------------+--------+-------+
+3 rows in set (0.002 sec)
+
+MariaDB [college]> SELECT e1.ename AS Employee1, e2.ename AS Employee2, d1.loc
+    -> FROM empt e1
+    -> JOIN Dept d1 ON e1.deptno = d1.deptno
+    -> JOIN Emp e2 ON e1.deptno = e2.deptno AND e1.empno != e2.empno
+    -> JOIN Dept d2 ON e2.deptno = d2.deptno
+    -> WHERE d1.loc = d2.loc;
+ERROR 1054 (42S22): Unknown column 'e2.ename' in 'field list'
+MariaDB [college]> SELECT e1.ename AS Employee1, e2.ename AS Employee2, d1.loc
+    -> FROM empt e1
+    -> JOIN Dept d1 ON e1.deptno = d1.deptno
+    -> JOIN empt e2 ON e1.deptno = e2.deptno AND e1.empno != e2.empno
+    -> JOIN Dept d2 ON e2.deptno = d2.deptno
+    ->  WHERE d1.loc = d2.loc;
++----------------+----------------+------------+
+| Employee1      | Employee2      | loc        |
++----------------+----------------+------------+
+| Sita Rai       | Ashok Shrestha | Biratnagar |
+| Ashok Shrestha | Sita Rai       | Biratnagar |
++----------------+----------------+------------+
+2 rows in set (0.002 sec)
+
+MariaDB [college]> SELECT e.ename, e.sal, e.deptno
+    ->  FROM empt e
+    -> WHERE e.sal = (SELECT MIN(sal)FROM empt);
++--------------+-------+--------+
+| ename        | sal   | deptno |
++--------------+-------+--------+
+| Bharat Yadav | 50000 |     10 |
++--------------+-------+--------+
+1 row in set (0.000 sec)
+
+MariaDB [college]>  SELECT d.deptno, d.dname, d.loc
+    -> FROM Dept d
+    -> LEFT JOIN Empt e ON d.deptno = e.deptno
+    -> WHERE e.empno IS NULL;
++--------+---------+--------+
+| deptno | dname   | loc    |
++--------+---------+--------+
+|     40 | Vipanan | Dharan |
++--------+---------+--------+
+1 row in set (0.001 sec)
+
+MariaDB [college]>
