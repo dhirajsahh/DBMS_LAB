@@ -1,0 +1,132 @@
+
+Setting environment for using XAMPP for Windows.
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 14
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
++--------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client12          |
+| department        |
+| employees         |
+| teacher           |
++-------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [college]> CREATE TABLES sales(
+    -> Sales_No INT PRIMARY KEY,
+    -> Sales_Name VARCHAR(50),
+    -> Brach VARCHAR(50) NOT NULL,
+    -> Sales_Amount DOUBLE,
+    -> DOB DATE NOT NULL);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'TABLES sales(
+Sales_No INT PRIMARY KEY,
+Sales_Name VARCHAR(50),
+Brach VARCHAR...' at line 1
+MariaDB [college]> CREATE TABLE sales(
+    -> Sales_No INT PRIMARY KEY,
+    -> Sales_Name VARCHAR(50),
+    -> Brach VARCHAR(50) NOT NULL,
+    -> Sales_Amount DOUBLE,
+    -> DOB DATE NOT NULL);
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [college]> desc sales;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Sales_No     | int(11)     | NO   | PRI | NULL    |       |
+| Sales_Name   | varchar(50) | YES  |     | NULL    |       |
+| Brach        | varchar(50) | NO   |     | NULL    |       |
+| Sales_Amount | double      | YES  |     | NULL    |       |
+| DOB          | date        | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.028 sec)
+
+MariaDB [college]> ALTER TABLE sales
+    -> CHANGE Brach Branch VARCHAR(50) NOT NULL;
+Query OK, 0 rows affected (0.039 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> desc tables;
+ERROR 1146 (42S02): Table 'college.tables' doesn't exist
+MariaDB [college]> desc sales;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Sales_No     | int(11)     | NO   | PRI | NULL    |       |
+| Sales_Name   | varchar(50) | YES  |     | NULL    |       |
+| Branch       | varchar(50) | NO   |     | NULL    |       |
+| Sales_Amount | double      | YES  |     | NULL    |       |
+| DOB          | date        | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.018 sec)
+
+MariaDB [college]> INSERT INTO Sales (Sales_No, Sales_Name,Branch,Sales_Amount,DOB)
+    -> VALUES
+    -> (1,'Dhiraj mahato','Kathmandu',20000,'2004-03-20'),
+    -> (2,'Rohit kumar','Pokhara',15000,'1990-12-15'),
+    -> (3,'Bharat yadav','lalitpur',17000,'1992-12-22'),
+    -> (4,'Rahul jha','Kathmandu',13000,'1997-03-12'),
+    -> (5,'sumit sah','Pokhara',14000,'1993-12-04');
+Query OK, 5 rows affected (0.016 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> SELECT Branch,SUM(Sales_Amount) AS Total_Sales_Amount FROM Sales GRO
+UP BY Branch;
++-----------+--------------------+
+| Branch    | Total_Sales_Amount |
++-----------+--------------------+
+| Kathmandu |              33000 |
+| lalitpur  |              17000 |
+| Pokhara   |              29000 |
++-----------+--------------------+
+3 rows in set (0.006 sec)
+
+MariaDB [college]> SELECT Branch, AVG(Sales_Amount) AS Average_Sales_Amount From Sales
+GROUP BY Branch;
++-----------+----------------------+
+| Branch    | Average_Sales_Amount |
++-----------+----------------------+
+| Kathmandu |                16500 |
+| lalitpur  |                17000 |
+| Pokhara   |                14500 |
++-----------+----------------------+
+3 rows in set (0.015 sec)
+
+MariaDB [college]> SELECT Sales_Name, DATE_FORMAT(DOB, '%d-%b-%y') AS DOB FROM Sales WH
+ERE MONTH(DOB)=12;
++--------------+-----------+
+| Sales_Name   | DOB       |
++--------------+-----------+
+| Rohit kumar  | 15-Dec-90 |
+| Bharat yadav | 22-Dec-92 |
+| sumit sah    | 04-Dec-93 |
++--------------+-----------+
+3 rows in set (0.017 sec)
+
+MariaDB [college]>
