@@ -1,0 +1,167 @@
+
+Setting environment for using XAMPP for Windows.
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 11
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
++--------------------+
+7 rows in set (0.021 sec)
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| department        |
+| employees         |
++-------------------+
+2 rows in set (0.009 sec)
+
+MariaDB [college]> CREATE TABLE Client_master(
+    -> ClientNo VARCHAR(10) PRIMARY KEY,
+    -> Name  VARCHAR(50) NOT NULL,
+    -> Address VARCHAR(100),
+    -> City VARCHAR(100),
+    -> State VARCHAR(100),
+    -> bal_due DOUBLE);
+Query OK, 0 rows affected (0.036 sec)
+
+MariaDB [college]> INSERT INTO Client_master(ClientNo, Name, Address,City,State,bal_due)
+    -> VALUES
+    -> ('COO1', 'Dhiraj Mahato', 'Aranma-02','Siraha','Madhesh',6000),
+    -> ('C120','Niraj Neupane', 'Bharatpur-10','chitwan','Bagmati',4500),
+    -> ('C121','Ram','kathmandu-4','kathmandu','bagmati',50000),
+    -> (C122','Shyam','Biratnagar','Morang','koshi',5000),
+    '> ('C123','Rajesh','butwal','Rupendehi','lumbini',5500);
+    '> ;
+    '> Bye
+
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 12
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client_master     |
+| department        |
+| employees         |
++-------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [college]> desc client_master;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| ClientNo | varchar(10)  | NO   | PRI | NULL    |       |
+| Name     | varchar(50)  | NO   |     | NULL    |       |
+| Address  | varchar(100) | YES  |     | NULL    |       |
+| City     | varchar(100) | YES  |     | NULL    |       |
+| State    | varchar(100) | YES  |     | NULL    |       |
+| bal_due  | double       | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+6 rows in set (0.029 sec)
+
+MariaDB [college]> INSERT INTO Client_master (ClientNo, Name, Address, City, State, bal_due)
+    -> VALUES
+    ->     ('COO1', 'Dhiraj Mahato', 'Aranma-02', 'Siraha', 'Madhesh', 6000),
+    ->     ('C120', 'Niraj Neupane', 'Bharatpur-10', 'Chitwan', 'Bagmati', 4500),
+    ->     ('C121', 'Ram', 'Kathmandu-4', 'Kathmandu', 'Bagmati', 50000),
+    ->     ('C122', 'Shyam', 'Biratnagar', 'Morang', 'Koshi', 5000),
+    ->     ('C123', 'Rajesh','Butwal','Rupendehi','lumbini',5500);
+Query OK, 5 rows affected (0.029 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> SELECT * from client_master;
++----------+---------------+--------------+-----------+---------+---------+
+| ClientNo | Name          | Address      | City      | State   | bal_due |
++----------+---------------+--------------+-----------+---------+---------+
+| C120     | Niraj Neupane | Bharatpur-10 | Chitwan   | Bagmati |    4500 |
+| C121     | Ram           | Kathmandu-4  | Kathmandu | Bagmati |   50000 |
+| C122     | Shyam         | Biratnagar   | Morang    | Koshi   |    5000 |
+| C123     | Rajesh        | Butwal       | Rupendehi | lumbini |    5500 |
+| COO1     | Dhiraj Mahato | Aranma-02    | Siraha    | Madhesh |    6000 |
++----------+---------------+--------------+-----------+---------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> SELECT Name from client_master WHERE bal_due>5000;
++---------------+
+| Name          |
++---------------+
+| Ram           |
+| Rajesh        |
+| Dhiraj Mahato |
++---------------+
+3 rows in set (0.001 sec)
+
+MariaDB [college]> UPDATE client_master SET bal_due=5100 WHERE ClientNo='C123';
+Query OK, 1 row affected (0.016 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [college]> SELECT * from client_master;
++----------+---------------+--------------+-----------+---------+---------+
+| ClientNo | Name          | Address      | City      | State   | bal_due |
++----------+---------------+--------------+-----------+---------+---------+
+| C120     | Niraj Neupane | Bharatpur-10 | Chitwan   | Bagmati |    4500 |
+| C121     | Ram           | Kathmandu-4  | Kathmandu | Bagmati |   50000 |
+| C122     | Shyam         | Biratnagar   | Morang    | Koshi   |    5000 |
+| C123     | Rajesh        | Butwal       | Rupendehi | lumbini |    5100 |
+| COO1     | Dhiraj Mahato | Aranma-02    | Siraha    | Madhesh |    6000 |
++----------+---------------+--------------+-----------+---------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> RENAME TABLE Client_master To Client12;
+Query OK, 0 rows affected (0.056 sec)
+
+MariaDB [college]> select * from client12;
++----------+---------------+--------------+-----------+---------+---------+
+| ClientNo | Name          | Address      | City      | State   | bal_due |
++----------+---------------+--------------+-----------+---------+---------+
+| C120     | Niraj Neupane | Bharatpur-10 | Chitwan   | Bagmati |    4500 |
+| C121     | Ram           | Kathmandu-4  | Kathmandu | Bagmati |   50000 |
+| C122     | Shyam         | Biratnagar   | Morang    | Koshi   |    5000 |
+| C123     | Rajesh        | Butwal       | Rupendehi | lumbini |    5100 |
+| COO1     | Dhiraj Mahato | Aranma-02    | Siraha    | Madhesh |    6000 |
++----------+---------------+--------------+-----------+---------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> SELECT ClientNo , Name, Address, City, State, bal_due AS BALANCE FROM Client12;
++----------+---------------+--------------+-----------+---------+---------+
+| ClientNo | Name          | Address      | City      | State   | BALANCE |
++----------+---------------+--------------+-----------+---------+---------+
+| C120     | Niraj Neupane | Bharatpur-10 | Chitwan   | Bagmati |    4500 |
+| C121     | Ram           | Kathmandu-4  | Kathmandu | Bagmati |   50000 |
+| C122     | Shyam         | Biratnagar   | Morang    | Koshi   |    5000 |
+| C123     | Rajesh        | Butwal       | Rupendehi | lumbini |    5100 |
+| COO1     | Dhiraj Mahato | Aranma-02    | Siraha    | Madhesh |    6000 |
++----------+---------------+--------------+-----------+---------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]>
