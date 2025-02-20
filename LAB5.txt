@@ -1,0 +1,221 @@
+
+Setting environment for using XAMPP for Windows.
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 15
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
++--------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client12          |
+| department        |
+| employees         |
+| sales             |
+| teacher           |
++-------------------+
+5 rows in set (0.015 sec)
+
+MariaDB [college]> CREATE TABLE Emp(
+    -> Emp_No INT PRIMARY KEY,
+    -> Emp_Name VARCHAR(100) NOT NULL,
+    -> Designation VARCHAR(50),
+    -> Basic FLOAT,
+    -> DA FLOAT,
+    -> HRA FLOAT,
+    -> PF FLOAT,
+    -> GrossPay FLOAT,
+    -> NetPay FLOAT);
+Query OK, 0 rows affected (0.040 sec)
+
+MariaDB [college]> INSERT INTO Emp(Emp_No, Emp_Name,Designation,Basic,DA,HRA,PF,GrossPay,NetPay)
+    -> VALUES
+    -> (1,'Bharat yadav','Manager',8000,2000,1500,800,0,0),
+    -> (2,'Ram sharma','assistant',6000,1500,1200,600,0,0),
+    -> (3,'Rambha singh','Supervisior',9000,1800,1300,700,0,0),
+    -> (4, 'Ravi Kumar', 'Clerk', 4000, 1000, 800, 400, 0, 0),
+    ->  (5, 'Bigyan sigdel', 'Executive', 5000, 1200, 1000, 500, 0, 0);
+Query OK, 5 rows affected (0.018 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> UPDATE Emp SET GrossPay=Basic+DA+HRA,
+    -> NetPay=GrossPay-PF;
+Query OK, 5 rows affected (0.017 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [college]> desc Emp;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| Emp_No      | int(11)      | NO   | PRI | NULL    |       |
+| Emp_Name    | varchar(100) | NO   |     | NULL    |       |
+| Designation | varchar(50)  | YES  |     | NULL    |       |
+| Basic       | float        | YES  |     | NULL    |       |
+| DA          | float        | YES  |     | NULL    |       |
+| HRA         | float        | YES  |     | NULL    |       |
+| PF          | float        | YES  |     | NULL    |       |
+| GrossPay    | float        | YES  |     | NULL    |       |
+| NetPay      | float        | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+9 rows in set (0.020 sec)
+
+MariaDB [college]> show emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'emp' at line 1
+MariaDB [college]> select * from Emp;
++--------+---------------+-------------+-------+------+------+------+----------+--------+
+| Emp_No | Emp_Name      | Designation | Basic | DA   | HRA  | PF   | GrossPay | NetPay |
++--------+---------------+-------------+-------+------+------+------+----------+--------+
+|      1 | Bharat yadav  | Manager     |  8000 | 2000 | 1500 |  800 |    11500 |  10700 |
+|      2 | Ram sharma    | assistant   |  6000 | 1500 | 1200 |  600 |     8700 |   8100 |
+|      3 | Rambha singh  | Supervisior |  9000 | 1800 | 1300 |  700 |    12100 |  11400 |
+|      4 | Ravi Kumar    | Clerk       |  4000 | 1000 |  800 |  400 |     5800 |   5400 |
+|      5 | Bigyan sigdel | Executive   |  5000 | 1200 | 1000 |  500 |     7200 |   6700 |
++--------+---------------+-------------+-------+------+------+------+----------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> ALTER TABLE Emp ADD DA2 FLOAT;
+Query OK, 0 rows affected (0.012 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> select * from emp;
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+
+| Emp_No | Emp_Name      | Designation | Basic | DA   | HRA  | PF   | GrossPay | NetPay | DA2  |
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+
+|      1 | Bharat yadav  | Manager     |  8000 | 2000 | 1500 |  800 |    11500 |  10700 | NULL |
+|      2 | Ram sharma    | assistant   |  6000 | 1500 | 1200 |  600 |     8700 |   8100 | NULL |
+|      3 | Rambha singh  | Supervisior |  9000 | 1800 | 1300 |  700 |    12100 |  11400 | NULL |
+|      4 | Ravi Kumar    | Clerk       |  4000 | 1000 |  800 |  400 |     5800 |   5400 | NULL |
+|      5 | Bigyan sigdel | Executive   |  5000 | 1200 | 1000 |  500 |     7200 |   6700 | NULL |
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> UPDATE Employee SET DA2 = DA * 1.2;
+ERROR 1146 (42S02): Table 'college.employee' doesn't exist
+MariaDB [college]> UPDATE Emp SET DA2 = DA * 1.2;
+Query OK, 5 rows affected (0.017 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [college]> ALTER TABLE Emp ADD HRA2 FLOAT;
+Query OK, 0 rows affected (0.029 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> UPDATE Emp SET HRA2 = HRA * 0.85;
+Query OK, 5 rows affected (0.003 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [college]> ALTER TABLE Emp ADD PF2 FLOAT;
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> UPDATE Emp SET PF2 = HRA * 0.95;
+Query OK, 5 rows affected (0.020 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [college]> UPDATE Emp SET PF2 = PF * 0.95;
+Query OK, 5 rows affected (0.016 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [college]> select * from emp;
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+------+------+
+| Emp_No | Emp_Name      | Designation | Basic | DA   | HRA  | PF   | GrossPay | NetPay | DA2  | HRA2 | PF2  |
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+------+------+
+|      1 | Bharat yadav  | Manager     |  8000 | 2000 | 1500 |  800 |    11500 |  10700 | 2400 | 1275 |  760 |
+|      2 | Ram sharma    | assistant   |  6000 | 1500 | 1200 |  600 |     8700 |   8100 | 1800 | 1020 |  570 |
+|      3 | Rambha singh  | Supervisior |  9000 | 1800 | 1300 |  700 |    12100 |  11400 | 2160 | 1105 |  665 |
+|      4 | Ravi Kumar    | Clerk       |  4000 | 1000 |  800 |  400 |     5800 |   5400 | 1200 |  680 |  380 |
+|      5 | Bigyan sigdel | Executive   |  5000 | 1200 | 1000 |  500 |     7200 |   6700 | 1440 |  850 |  475 |
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> ALTER TABLE Emp ADD Basic2 FLOAT;
+Query OK, 0 rows affected (0.034 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> UPDATE Emp SET Basic2 = Basic* 1.05;
+Query OK, 5 rows affected (0.002 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [college]> ALTER TABLE Emp ADD GrossPay2 FLOAT;
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> UPDATE Emp SET GrossPay2=Basic2+DA2+HRA2;
+Query OK, 5 rows affected (0.002 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [college]> ALTER TABLE Emp ADD NetPay2 FLOAT;
+Query OK, 0 rows affected (0.045 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> UPDATE Emp SET NetPay2=GrossPay2-PF2;
+Query OK, 5 rows affected (0.015 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [college]> select * from emp;
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+------+------+--------+-----------+---------+
+| Emp_No | Emp_Name      | Designation | Basic | DA   | HRA  | PF   | GrossPay | NetPay | DA2  | HRA2 | PF2  | Basic2 | GrossPay2 | NetPay2 |
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+------+------+--------+-----------+---------+
+|      1 | Bharat yadav  | Manager     |  8000 | 2000 | 1500 |  800 |    11500 |  10700 | 2400 | 1275 |  760 |   8400 |     12075 |   11315 |
+|      2 | Ram sharma    | assistant   |  6000 | 1500 | 1200 |  600 |     8700 |   8100 | 1800 | 1020 |  570 |   6300 |      9120 |    8550 |
+|      3 | Rambha singh  | Supervisior |  9000 | 1800 | 1300 |  700 |    12100 |  11400 | 2160 | 1105 |  665 |   9450 |     12715 |   12050 |
+|      4 | Ravi Kumar    | Clerk       |  4000 | 1000 |  800 |  400 |     5800 |   5400 | 1200 |  680 |  380 |   4200 |      6080 |    5700 |
+|      5 | Bigyan sigdel | Executive   |  5000 | 1200 | 1000 |  500 |     7200 |   6700 | 1440 |  850 |  475 |   5250 |      7540 |    7065 |
++--------+---------------+-------------+-------+------+------+------+----------+--------+------+------+------+--------+-----------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> SELECT Emp_Name,Basic FROM Emp WHERE Basic=(SELECT MIN(Basic) FROM Emp);
++------------+-------+
+| Emp_Name   | Basic |
++------------+-------+
+| Ravi Kumar |  4000 |
++------------+-------+
+1 row in set (0.001 sec)
+
+
+MariaDB [college]> UPDATE Emp SET NetPay=NetPay +1200 WHERE NetPay <10000;
+Query OK, 3 rows affected (0.017 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+MariaDB [college]> SELECT * FROM Emp WHERE GrossPay>10000&&GrossPay<200000;
++--------+--------------+-------------+-------+------+------+------+----------+--------+------+------+------+--------+-----------+---------+
+| Emp_No | Emp_Name     | Designation | Basic | DA   | HRA  | PF   | GrossPay | NetPay | DA2  | HRA2 | PF2  | Basic2 | GrossPay2 | NetPay2 |
++--------+--------------+-------------+-------+------+------+------+----------+--------+------+------+------+--------+-----------+---------+
+|      1 | Bharat yadav | Manager     |  8000 | 2000 | 1500 |  800 |    11500 |  10700 | 2400 | 1275 |  760 |   8400 |     12075 |   11315 |
+|      3 | Rambha singh | Supervisior |  9000 | 1800 | 1300 |  700 |    12100 |  11400 | 2160 | 1105 |  665 |   9450 |     12715 |   12050 |
++--------+--------------+-------------+-------+------+------+------+----------+--------+------+------+------+--------+-----------+---------+
+2 rows in set (0.001 sec)
+
+MariaDB [college]> SELECT Emp_Name,Designation,GrossPay FROM Emp WHERE GrossPay=(SELECT
+ MAX(GrossPay) FROM Emp);
++--------------+-------------+----------+
+| Emp_Name     | Designation | GrossPay |
++--------------+-------------+----------+
+| Rambha singh | Supervisior |    12100 |
++--------------+-------------+----------+
+1 row in set (0.001 sec)
+
+MariaDB [college]>
