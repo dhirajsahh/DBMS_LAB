@@ -1,0 +1,89 @@
+
+Setting environment for using XAMPP for Windows.
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 19
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-----------------------+
+| Tables_in_college     |
++-----------------------+
+| client12              |
+| department            |
+| dept                  |
+| emp                   |
+| employee_manager_view |
+| employees             |
+| empt                  |
+| sales                 |
+| teacher               |
++-----------------------+
+9 rows in set (0.001 sec)
+
+MariaDB [college]> SELECT e.*, d.dname, d.loc
+    -> FROM Empt e
+    -> JOIN Dept d ON e.deptno = d.deptno;
++-------+----------------+-----------+------+------------+-------+------+--------+-------------------+------------+
+| empno | ename          | job       | mgr  | hiredate   | sal   | comm | deptno | dname             | loc        |
++-------+----------------+-----------+------+------------+-------+------+--------+-------------------+------------+
+|     2 | Bharat Yadav   | clerk     |    1 | 2000-06-20 | 50000 | 2000 |     10 | Manav Sansadhan   | Kathmandu  |
+|     3 | kiran Rokaya   | Analyst   |    1 | 2010-09-10 | 60000 | 3000 |     20 | Vitt              | Pokhara    |
+|     4 | Ashok Shrestha | Developer |    3 | 2015-02-25 | 70000 | 2500 |     30 | Suchana Pravidhik | Biratnagar |
+|     5 | Sita Rai       | Executive |    3 | 2000-03-18 | 90000 | 4000 |     30 | Suchana Pravidhik | Biratnagar |
++-------+----------------+-----------+------+------------+-------+------+--------+-------------------+------------+
+4 rows in set (0.017 sec)
+
+MariaDB [college]> SELECT e.ename, d.dname
+    -> FROM Empt e
+    -> LEFT JOIN Dept d ON e.deptno = d.deptno;
++----------------+-------------------+
+| ename          | dname             |
++----------------+-------------------+
+| Bharat Yadav   | Manav Sansadhan   |
+| kiran Rokaya   | Vitt              |
+| Ashok Shrestha | Suchana Pravidhik |
+| Sita Rai       | Suchana Pravidhik |
++----------------+-------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [college]> SELECT e.ename, d.dname
+    ->  FROM Emp e
+    ->
+    ->  RIGHT JOIN Dept d ON e.deptno = d.deptno;
+ERROR 1054 (42S22): Unknown column 'e.ename' in 'field list'
+MariaDB [college]> SELECT e.ename, d.dname
+    ->  FROM Empt e
+    ->  RIGHT JOIN Dept d ON e.deptno = d.deptno;
++----------------+-------------------+
+| ename          | dname             |
++----------------+-------------------+
+| Bharat Yadav   | Manav Sansadhan   |
+| kiran Rokaya   | Vitt              |
+| Ashok Shrestha | Suchana Pravidhik |
+| Sita Rai       | Suchana Pravidhik |
+| NULL           | Vipanan           |
++----------------+-------------------+
+5 rows in set (0.001 sec)
+
+
+
+MariaDB [college]>  SELECT *
+    -> FROM Empt
+    -> WHERE sal > (SELECT AVG(sal)FROM Empt);
++-------+----------------+-----------+------+------------+-------+------+--------+
+| empno | ename          | job       | mgr  | hiredate   | sal   | comm | deptno |
++-------+----------------+-----------+------+------------+-------+------+--------+
+|     4 | Ashok Shrestha | Developer |    3 | 2015-02-25 | 70000 | 2500 |     30 |
+|     5 | Sita Rai       | Executive |    3 | 2000-03-18 | 90000 | 4000 |     30 |
++-------+----------------+-----------+------+------------+-------+------+--------+
+2 rows in set (0.001 sec)
+
+MariaDB [college]>
