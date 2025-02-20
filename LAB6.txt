@@ -1,0 +1,234 @@
+
+Setting environment for using XAMPP for Windows.
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 16
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
++--------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client12          |
+| department        |
+| emp               |
+| employees         |
+| sales             |
+| teacher           |
++-------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [college]> CREATE TABLE Empt(
+    ->   empno INT PRIMARY KEY,
+    ->  ename VARCHAR(255),
+    ->  job VARCHAR(255),
+    ->  mgr INT,
+    ->  hiredate DATE,
+    -> sal DOUBLE,
+    -> comm DOUBLE,
+    -> deptno INT,
+    -> FOREIGN KEY (deptno) REFERENCES Dept(deptno) );
+ERROR 1005 (HY000): Can't create table `college`.`empt` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client12          |
+| department        |
+| emp               |
+| employees         |
+| sales             |
+| teacher           |
++-------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [college]> CREATE TABLE Dept(
+    -> deptno INT PRIMARY KEY,
+    -> dname VARCHAR(100),
+    -> loc VARCHAR(200));
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client12          |
+| department        |
+| dept              |
+| emp               |
+| employees         |
+| sales             |
+| teacher           |
++-------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [college]> CREATE TABLE Empt(
+    ->   empno INT PRIMARY KEY,
+    ->  ename VARCHAR(255),
+    ->  job VARCHAR(255),
+    ->  mgr INT,
+    ->  hiredate DATE,
+    -> sal DOUBLE,
+    -> comm DOUBLE,
+    -> deptno INT,
+    -> FOREIGN KEY (deptno) REFERENCES Dept(deptno) );
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client12          |
+| department        |
+| dept              |
+| emp               |
+| employees         |
+| empt              |
+| sales             |
+| teacher           |
++-------------------+
+8 rows in set (0.001 sec)
+
+MariaDB [college]> INSERT INTO Dept (deptno, dname, loc)
+    -> VALUES
+    -> (10, 'Manav Sansadhan', 'Kathmandu'),
+    -> (20, 'Vitt', 'Pokhara'),
+    -> (30, 'Suchana Pravidhik', 'Biratnagar'),
+    -> (40, 'Vipanan', 'Dharan');
+Query OK, 4 rows affected (0.003 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> INSERT INTO Empt (empno, ename, job, mgr, hiredate, sal, comm, deptn
+o)
+    -> VALUES
+    -> (1,'Dhiraj Mahato",'manager',NULL,'1990-01-15',80000,5000,10),
+    '> (2,'Bharat Yadav','clerk',1,'2000-06-20',50000,2000,10),
+    '> Bye
+
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 17
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
++--------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client12          |
+| department        |
+| dept              |
+| emp               |
+| employees         |
+| empt              |
+| sales             |
+| teacher           |
++-------------------+
+8 rows in set (0.001 sec)
+
+MariaDB [college]> INSERT INTO Empt (empno, ename, job, mgr, hiredate, sal, comm, deptn
+
+    -> o)
+    ->  VALUES
+    ->  (1,'Dhiraj Mahato','manager',NULL,'1990-01-15',80000,5000,10),
+    ->  (2,'Bharat Yadav','clerk',1,'2000-06-20',50000,2000,10),
+    -> (3, 'Ganesh Rokaya', 'Analyst', 1, '2010-09-10', 60000.00, 3000.00, 20),
+    -> (4, 'Ashok Shrestha', 'Developer', 3, '2015-02-25', 70000.00, 2500.00, 30),
+    -> (5, 'sita rai', 'Executive', 3, '2000-03-18', 90000.00, 4000.00, 30),
+    -> (6, 'Radha Adhikari', 'Assistant', 5, '1994-07-23', 55000.00, 2200.00, 40);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'o)
+ VALUES
+ (1,'Dhiraj Mahato','manager',NULL,'1990-01-15',80000,5000,10),
+ (...' at line 2
+MariaDB [college]> INSERT INTO Empt (empno, ename, job, mgr, hiredate, sal, comm, deptno)
+    -> VALUES
+    ->  (1, 'Dhiraj Mahato', 'manager', NULL, '1990-01-15', 80000, 5000, 10),
+    -> (2, 'Bharat Yadav', 'clerk', 1, '2000-06-20', 50000, 2000, 10),
+    ->  (3, 'kiran Rokaya', 'Analyst', 1, '2010-09-10', 60000.00, 3000.00, 20),
+    -> (4, 'Ashok Shrestha', 'Developer', 3, '2015-02-25', 70000.00, 2500.00, 30),
+    ->  (5, 'Sita Rai', 'Executive', 3, '2000-03-18', 90000.00, 4000.00, 30),
+    ->  (6, 'Radha Adhikari', 'Assistant', 5, '1994-07-23', 55000.00, 2200.00, 40);
+Query OK, 6 rows affected (0.003 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> UPDATE Emp SET sal = sal * 1.15 WHERE YEAR(CURDATE())-YEAR(hiredate)>30;
+ERROR 1054 (42S22): Unknown column 'hiredate' in 'where clause'
+MariaDB [college]> UPDATE Empt SET sal = sal * 1.15 WHERE YEAR(CURDATE())-YEAR(hiredate
+)>30;
+Query OK, 2 rows affected (0.001 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [college]> DELETE FROM  WHERE YEAR(CURDATE())-YEAR(hiredate)>=30;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE YEAR(CURDATE())-YEAR(hiredate)>=30' at line 1
+MariaDB [college]> DELETE FROM Empt WHERE YEAR(CURDATE())-YEAR(hiredate)>=30;
+Query OK, 2 rows affected (0.001 sec)
+
+MariaDB [college]> SELECT mgr, COUNT(*) AS num_employees
+    ->  FROM Empt
+    -> GROUP BY mgr
+    ->  ORDER BY num_employees DESC
+    -> LIMIT 1;
++------+---------------+
+| mgr  | num_employees |
++------+---------------+
+|    1 |             2 |
++------+---------------+
+1 row in set (0.001 sec)
+
+MariaDB [college]> CREATE VIEW Employee_Manager_View AS
+    ->  SELECT e1.ename AS Employee_Name, e2.ename AS Manager_Name
+    -> FROM Empt e1
+    -> LEFT JOIN Empt e2 ON e1.mgr = e2.empno;
+Query OK, 0 rows affected (0.003 sec)
+
+MariaDB [college]> SELECT * FROM Employee_Manager_View;
++----------------+--------------+
+| Employee_Name  | Manager_Name |
++----------------+--------------+
+| Bharat Yadav   | NULL         |
+| kiran Rokaya   | NULL         |
+| Ashok Shrestha | kiran Rokaya |
+| Sita Rai       | kiran Rokaya |
++----------------+--------------+
+4 rows in set (0.018 sec)
