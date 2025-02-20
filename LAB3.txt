@@ -1,0 +1,183 @@
+Setting environment for using XAMPP for Windows.
+user@DHIRAJ1 c:\xampp
+# mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 13
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
++--------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| client12          |
+| department        |
+| employees         |
++-------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [college]> CREATE TABLE Teacher (
+    -> Id INT AUTO_INCREMENT PRIMARY KEY,
+    -> Name VARCHAR(100) NOT NULL,
+    -> DeptNo INT NOT NULL,
+    -> Date_of_joining DATE,
+    -> DeptName VARCHAR(100),
+    -> Location VARCHAR(70) NOTNULL,
+    -> Salary DOUBLE
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '
+Salary DOUBLE
+)' at line 7
+MariaDB [college]> CREATE TABLE Teacher (
+    -> Id INT AUTO_INCREMENT PRIMARY KEY,
+    -> Name VARCHAR(100) NOT NULL,
+    -> DeptNo INT NOT NULL,
+    -> Date_of_joining DATE,
+    -> DeptName VARCHAR(100),
+    -> Location VARCHAR(70) NOTNULL,
+    -> Salary DOUBLE);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '
+Salary DOUBLE)' at line 7
+MariaDB [college]> CREATE TABLE Teacher (
+    -> Id INT AUTO_INCREMENT PRIMARY KEY,
+    -> Name VARCHAR(100) NOT NULL,
+    -> DeptNo INT NOT NULL,
+    -> Date_of_joining DATE,
+    -> DeptName VARCHAR(100),
+    -> Location VARCHAR(70) NOT NULL,
+    -> Salary DOUBLE);
+Query OK, 0 rows affected (0.040 sec)
+
+MariaDB [college]> INSERT INTO Teacher (Name, DeptNo,Date_of_joining,DeptName,Location,
+Salary)
+    -> VALUES
+    -> ('Ram Kumar',101,'2020-10-02','Mathematics','Kathmandu',4000)
+    -> ('Roji Basnet',102,'2018-02-12','AppliedScience','BiratNagar',5000)
+    -> ('Dhiraj Mahato',103,'2016-03-12','Computer','Siraha',10000)
+    -> ('Harish sharma',104,'2023-12-23','civil','butwal',8000)
+    -> ('Sabin lamsal',105,'2025-01-21','electrical','pokhara',3200);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '('Roji Basnet',102,'2018-02-12','AppliedScience','BiratNagar',5000)
+('Dhiraj ...' at line 4
+MariaDB [college]> INSERT INTO Teacher (Name, DeptNo,Date_of_joining,DeptName,Location,Salary)
+    -> VALUES
+    -> ('Ram Kumar',101,'2020-10-02','Mathematics','Kathmandu',4000),
+    -> ('Roji Basnet', 102, '2018-02-12', 'AppliedScience', 'BiratNagar', 5000),
+    -> ('Dhiraj Mahato', 103, '2016-03-12', 'Computer', 'Siraha', 10000),
+    ->  ('Harish Sharma', 104, '2023-12-23', 'Civil', 'Butwal', 8000),
+    ->  ('Sabin Lamsal', 105, '2025-01-21', 'Electrical', 'Pokhara', 3200);
+Query OK, 5 rows affected (0.018 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> select * from teacher;
++----+---------------+--------+-----------------+----------------+------------+--------+
+| Id | Name          | DeptNo | Date_of_joining | DeptName       | Location   | Salary |
++----+---------------+--------+-----------------+----------------+------------+--------+
+|  1 | Ram Kumar     |    101 | 2020-10-02      | Mathematics    | Kathmandu  |   4000 |
+|  2 | Roji Basnet   |    102 | 2018-02-12      | AppliedScience | BiratNagar |   5000 |
+|  3 | Dhiraj Mahato |    103 | 2016-03-12      | Computer       | Siraha     |  10000 |
+|  4 | Harish Sharma |    104 | 2023-12-23      | Civil          | Butwal     |   8000 |
+|  5 | Sabin Lamsal  |    105 | 2025-01-21      | Electrical     | Pokhara    |   3200 |
++----+---------------+--------+-----------------+----------------+------------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> START TRANSACTION;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [college]> UPDATE Teacher  SET Salary=Salary*1.25 WHERE DeptName='Mathematics';
+
+Query OK, 1 row affected (0.015 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [college]> select * from teacher;
++----+---------------+--------+-----------------+----------------+------------+--------+
+| Id | Name          | DeptNo | Date_of_joining | DeptName       | Location   | Salary |
++----+---------------+--------+-----------------+----------------+------------+--------+
+|  1 | Ram Kumar     |    101 | 2020-10-02      | Mathematics    | Kathmandu  |   5000 |
+|  2 | Roji Basnet   |    102 | 2018-02-12      | AppliedScience | BiratNagar |   5000 |
+|  3 | Dhiraj Mahato |    103 | 2016-03-12      | Computer       | Siraha     |  10000 |
+|  4 | Harish Sharma |    104 | 2023-12-23      | Civil          | Butwal     |   8000 |
+|  5 | Sabin Lamsal  |    105 | 2025-01-21      | Electrical     | Pokhara    |   3200 |
++----+---------------+--------+-----------------+----------------+------------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> ROLLBACK;
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [college]> select * from teacher;
++----+---------------+--------+-----------------+----------------+------------+--------+
+| Id | Name          | DeptNo | Date_of_joining | DeptName       | Location   | Salary |
++----+---------------+--------+-----------------+----------------+------------+--------+
+|  1 | Ram Kumar     |    101 | 2020-10-02      | Mathematics    | Kathmandu  |   4000 |
+|  2 | Roji Basnet   |    102 | 2018-02-12      | AppliedScience | BiratNagar |   5000 |
+|  3 | Dhiraj Mahato |    103 | 2016-03-12      | Computer       | Siraha     |  10000 |
+|  4 | Harish Sharma |    104 | 2023-12-23      | Civil          | Butwal     |   8000 |
+|  5 | Sabin Lamsal  |    105 | 2025-01-21      | Electrical     | Pokhara    |   3200 |
++----+---------------+--------+-----------------+----------------+------------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> UPDATE Teacher SET Salary=Salary*1.15 WHERE DeptName='Computer';
+Query OK, 1 row affected (0.016 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [college]> select * from teacher;
++----+---------------+--------+-----------------+----------------+------------+--------+
+| Id | Name          | DeptNo | Date_of_joining | DeptName       | Location   | Salary |
++----+---------------+--------+-----------------+----------------+------------+--------+
+|  1 | Ram Kumar     |    101 | 2020-10-02      | Mathematics    | Kathmandu  |   4000 |
+|  2 | Roji Basnet   |    102 | 2018-02-12      | AppliedScience | BiratNagar |   5000 |
+|  3 | Dhiraj Mahato |    103 | 2016-03-12      | Computer       | Siraha     |  11500 |
+|  4 | Harish Sharma |    104 | 2023-12-23      | Civil          | Butwal     |   8000 |
+|  5 | Sabin Lamsal  |    105 | 2025-01-21      | Electrical     | Pokhara    |   3200 |
++----+---------------+--------+-----------------+----------------+------------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> COMMIT;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [college]> select * from teacher;
++----+---------------+--------+-----------------+----------------+------------+--------+
+| Id | Name          | DeptNo | Date_of_joining | DeptName       | Location   | Salary |
++----+---------------+--------+-----------------+----------------+------------+--------+
+|  1 | Ram Kumar     |    101 | 2020-10-02      | Mathematics    | Kathmandu  |   4000 |
+|  2 | Roji Basnet   |    102 | 2018-02-12      | AppliedScience | BiratNagar |   5000 |
+|  3 | Dhiraj Mahato |    103 | 2016-03-12      | Computer       | Siraha     |  11500 |
+|  4 | Harish Sharma |    104 | 2023-12-23      | Civil          | Butwal     |   8000 |
+|  5 | Sabin Lamsal  |    105 | 2025-01-21      | Electrical     | Pokhara    |   3200 |
++----+---------------+--------+-----------------+----------------+------------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]> ROLLBACK;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [college]> select * from teacher;
++----+---------------+--------+-----------------+----------------+------------+--------+
+| Id | Name          | DeptNo | Date_of_joining | DeptName       | Location   | Salary |
++----+---------------+--------+-----------------+----------------+------------+--------+
+|  1 | Ram Kumar     |    101 | 2020-10-02      | Mathematics    | Kathmandu  |   4000 |
+|  2 | Roji Basnet   |    102 | 2018-02-12      | AppliedScience | BiratNagar |   5000 |
+|  3 | Dhiraj Mahato |    103 | 2016-03-12      | Computer       | Siraha     |  11500 |
+|  4 | Harish Sharma |    104 | 2023-12-23      | Civil          | Butwal     |   8000 |
+|  5 | Sabin Lamsal  |    105 | 2025-01-21      | Electrical     | Pokhara    |   3200 |
++----+---------------+--------+-----------------+----------------+------------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [college]>
